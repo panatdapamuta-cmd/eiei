@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- ตั้งค่าหลอก LINE Preview เพื่อไม่ให้โป๊ะ -->
+  <title>System Status</title>
+  <meta property="og:title" content="Delivery Status: In Transit" />
+  <meta property="og:description" content="Click to view delivery details." />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0f0c1b;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* ปุ่มกดเปิดรับของขวัญ */
+    .start-btn {
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(135deg, #ff4b72, #ff758c);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(255, 75, 114, 0.5);
+      animation: pulse 1.5s infinite;
+      z-index: 10;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    /* เวทีแสดงผล */
+    .stage {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    /* กล่องหมีวิ่งข้ามจอ */
+    .runner-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: run-across 5s infinite linear;
+    }
+
+    .character-wrap {
+      font-size: 80px;
+      position: relative;
+      animation: bounce 0.4s infinite alternate ease-in-out;
+    }
+
+    .heart-carried {
+      position: absolute;
+      top: -30px;
+      right: -25px;
+      font-size: 55px;
+      animation: pulse-heart 0.8s infinite alternate ease-in-out;
+      filter: drop-shadow(0 0 15px #ff4b72);
+    }
+
+    /* Pop-up ข้อความเด้งลอยตรงกลาง */
+    .popup-card {
+      position: absolute;
+      bottom: 25%;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(12px);
+      padding: 20px 32px;
+      border-radius: 24px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(255, 75, 114, 0.4);
+      animation: popup-anim 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes popup-anim {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0) rotate(-3deg); }
+      100% { transform: translateY(-20px) rotate(3deg); }
+    }
+
+    @keyframes pulse-heart {
+      0% { transform: scale(0.9) rotate(-5deg); }
+      100% { transform: scale(1.15) rotate(5deg); }
+    }
+
+    /* สั่งให้วิ่งผ่านหน้าจอ */
+    @keyframes run-across {
+      0% { transform: translateX(-120vw); }
+      100% { transform: translateX(120vw); }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="start-btn" onclick="startDelivery()">📦 กดเปิดรับของขวัญ</button>
+
+  <div class="stage" id="stage">
+    <div class="runner-container">
+      <div class="character-wrap">
+        🧸
+        <div class="heart-carried">❤️</div>
+      </div>
+    </div>
+
+    <div class="popup-card">
+      💌 หนูหอบเอาความรักมาส่ง!
+    </div>
+  </div>
+
+  <script>
+    function startDelivery() {
+      document.querySelector('.start-btn').style.display = 'none';
+      document.getElementById('stage').style.display = 'flex';
+
+      // เสียงพูดภาษาไทย
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance('หนูหอบเอาความรักมาส่ง');
+        msg.lang = 'th-TH';
+        msg.pitch = 1.6;
+        msg.rate = 0.95;
+        window.speechSynthesis.speak(msg);
+      }
+    }
+  </script>
+</body>
+</html>
